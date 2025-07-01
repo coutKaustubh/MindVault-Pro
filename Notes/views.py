@@ -35,7 +35,11 @@ def notes_entry(request):
             title = request.POST.get('title')
             description = request.POST.get('description')
             image = request.FILES.get('image')
+            problem_type = request.POST.get('problem_type')
+            if problem_type == 'other':
+                problem_type = request.POST.get('custom_problem_type')
 
+                
             try:
                 topic = Topic.objects.get(id=topic_id)
                 Entry.objects.create(
@@ -43,7 +47,8 @@ def notes_entry(request):
                     topic=topic,
                     title=title,
                     description=description,
-                    image=image
+                    image=image,
+                    problem_type=problem_type
                 )
             except Topic.DoesNotExist:
                 pass
@@ -152,3 +157,4 @@ def update_entry(request, id):
 def logout_page(request):
     logout(request)
     return redirect('/home/')
+

@@ -66,9 +66,24 @@
                 <textarea name="description" id="noteDescription" rows="5" required></textarea>
             </div>
 
+             <div class="form-group">
+                <label for="problem_type">Problem Type</label>
+                <select name="problem_type" id="selected_topic" class="styled-select" onchange="toggleCustomInput(this)"  required>
+                    <option value="" disabled selected>Choose Problem Type</option>
+                    <option value="silly">Silly Mistake</option>
+                    <option value="big">Big Mistake</option>
+                    <option value="concept">Conceptual Error</option>
+                    <option value="calc">Calculation Mistake</option>
+                    <option value="skip">Skipped/Unattempted</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;" placeholder="Enter your custom type">
+            </div>
+
             <div class="form-group">
-                <label for="image">Optional Image</label>
-                <input type="file" name="image" id="image" accept="image/*">
+                <label for="image">Optional Document</label>
+                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png,.pdf">
             </div>
 
             <button type="submit" class="btn btn-primary">Save Note</button>
@@ -90,6 +105,7 @@
                 <th>Topic</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Problem Type</th>
                 <th>Image</th>
                 <th>Date</th>
                 <th>Actions</th>
@@ -103,10 +119,24 @@
                 <td>{{ entry.title }}</td>
                 <td>{{ entry.description }}</td>
                 <td>
+                <span class="badge 
+                    {% if entry.problem_type == 'silly' %}bg-warning text-dark
+                    {% elif entry.problem_type == 'big' %}bg-danger
+                    {% elif entry.problem_type == 'concept' %}bg-info
+                    {% elif entry.problem_type == 'calc' %}bg-primary
+                    {% elif entry.problem_type == 'skip' %}bg-secondary
+                    {% else %}bg-light text-dark
+                    {% endif %}
+                " style="padding: 6px 10px; border-radius: 8px;">
+                    {{ entry.get_problem_type_display }}       
+                </span>
+                </td>
+
+                <td>
                     {% if entry.image %}
-                <a href = "/media/{{entry.image}}" target="_blank"><img src = "/media/{{entry.image}}" style="height: 100px; width: 100px;"></a></t>
+                <a href = "/media/{{entry.image}}" target="_blank"><button class = "btn btn-primary">View Doc File</button></a></t>
                     {% else %}
-                        No Image
+                        No Document
                     {% endif %}
                 </td>
                 <td>{{ entry.created_at|date:"M d, Y" }}</td>
@@ -128,5 +158,19 @@
         <p>No notes added yet. Create a topic and start writing!</p>
     {% endif %}
 </div>
+
+<script>
+function toggleCustomInput(selectElement) {
+    const customInput = document.getElementById('custom_problem_type');
+    if (selectElement.value === 'other') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+    } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+    }
+}
+</script>
+
 
 {% endblock %}
