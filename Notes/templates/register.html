@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block start %}
+<body class="login-body">
+    <div class="login-container">
+        <!-- Back Button -->
+        <a href="/login/" class="back-button">
+            ← Back to Login
+        </a>
+
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+        <!-- Register Form -->
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-icon">📚</div>
+                    <span class="logo-text">MindVault</span>
+                </div>
+                <h1 class="login-title">Create Your Account</h1>
+                <p class="login-subtitle">Start building your personal knowledge vault</p>
+            </div>
+
+            <form class="login-form" id="registerForm" method="post" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="firstName" name="first_name" placeholder="Enter your First name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="lastName" name="last_name" placeholder="Enter your Last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Create Username</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="text" id="username" name="username" placeholder="Create Username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="regPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+
+            <div class="login-toggle">
+                <p>Already have an account? <a href="/login/">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

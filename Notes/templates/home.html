@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block start %}
+
+<header class="app-header">
+    <div class="app-nav">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            <div class="logo-info">
+                <span class="logo-text">MindVault</span>
+                <span class="logo-subtitle">Your Personal Knowledge Space</span>
+                <span class="logo-subtitle">Welcome, {{user.first_name}}</span>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'logout_page' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">🚪 Logout</button>
+        </form>
+    </div>
+</header>
+
+<div class="app-container">
+    <!-- Topic Form -->
+    <div class="topic-panel">
+        <div class="panel-header">
+            <h2>Create Topic</h2>
+            <p>Start by creating a topic to organize your notes</p>
+        </div>
+        <form class="topic-form" id="topicForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="add_topic">
+            <div class="form-group">
+                <label for="topicName">Topic Name</label>
+                <input type="text" name="topic" id="topicName" placeholder="e.g., Physics, JEE 24 July" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Topic</button>
+        </form>
+    </div>
+
+    <!-- Note Form -->
+    <div class="note-panel">
+        <div class="panel-header">
+            <h2>Add Note</h2>
+            <p>Fill in the details for your new note</p>
+        </div>
+        <form method="POST" class="topic-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="add_note">
+
+            <div class="form-group">
+                <label for="selected_topic">Select Topic</label>
+                <select name="selected_topic" id="selected_topic" class="styled-select" required>
+                    <option value="" disabled selected>Select a topic</option>
+                    {% for topic in topics %}
+                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="noteTitle">Title</label>
+                <input type="text" name="title" id="noteTitle" required>
+            </div>
+
+            <div class="form-group">
+                <label for="noteDescription">Description</label>
+                <textarea name="description" id="noteDescription" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Optional Image</label>
+                <input type="file" name="image" id="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Note</button>
+        </form>
+    </div>
+</div>
+
+<!-- Notes Table -->
+<div class="notes-section">
+    <div class="section-header">
+        <h2>Your Notes</h2>
+    </div>
+
+    {% if entries %}
+    <table class="notes-table">
+        <thead>
+            <tr>
+                <th>S.no</th>
+                <th>Topic</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{ entry.topic.name }}</td>
+                <td>{{ entry.title }}</td>
+                <td>{{ entry.description }}</td>
+                <td>
+                    {% if entry.image %}
+                <a href = "/media/{{entry.image}}" target="_blank"><img src = "/media/{{entry.image}}" style="height: 100px; width: 100px;"></a></t>
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>{{ entry.created_at|date:"M d, Y" }}</td>
+                <td>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <a href="/delete-entry/{{entry.id}}/" class="linkbtn">
+                <button class="btn btn-danger" style="background-color: rgb(233, 58, 58);">Delete</button>
+                </a>
+                <a href="/update-entry/{{entry.id}}/" class="linkbtn">
+                <button class="btn btn-primary">Update</button>
+                </a>
+            </div>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No notes added yet. Create a topic and start writing!</p>
+    {% endif %}
+</div>
+
+{% endblock %}

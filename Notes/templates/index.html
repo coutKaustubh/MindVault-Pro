@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block start %}
+
+<!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon">📚</div>
+                <span class="logo-text">MindVault</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Your Personal
+                <span class="gradient-text">Knowledge Vault</span>
+            </h1>
+            <p class="hero-description">
+                Store, organize, and access your thoughts, ideas, and memories in a beautiful digital sanctuary. 
+                Create topics, add detailed notes with images, and never lose track of what matters to you.
+            </p>
+            <div class="hero-buttons">
+                <a href="/login/" class="btn btn-primary">Start Writing Your Story</a>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=500&fit=crop&crop=center" alt="Person using laptop" class="floating-image">
+            <div class="pulse-icon">⚡</div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How MindVault Works</h2>
+                <p class="section-subtitle">Simple, intuitive, and powerful. Organize your thoughts in three easy steps.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card blue">
+                    <div class="step-icon">📝</div>
+                    <h3 class="step-title">1. Create a Topic</h3>
+                    <p class="step-description">
+                        Start by creating a topic like "March 21, 2024" or "Physics Studies". 
+                        Organize your thoughts by date, subject, or any way that makes sense to you.
+                    </p>
+                </div>
+                <div class="step-card purple">
+                    <div class="step-icon">🔍</div>
+                    <h3 class="step-title">2. Add Details</h3>
+                    <p class="step-description">
+                        Give your entry a meaningful title like "Physics Q1 - Silly Mistake", 
+                        then add a detailed description with all the context you need.
+                    </p>
+                </div>
+                <div class="step-card green">
+                    <div class="step-icon">🖼️</div>
+                    <h3 class="step-title">3. Enhance with Images</h3>
+                    <p class="step-description">
+                        Optionally add images to make your notes more vivid and memorable. 
+                        Visual context makes everything easier to remember and understand.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose MindVault?</h2>
+            </div>
+            <div class="features-grid">
+                <div class="features-content">
+                    <div class="feature-item">
+                        <div class="feature-icon blue">🛡️</div>
+                        <div class="feature-text">
+                            <h3>Private & Secure</h3>
+                            <p>Your thoughts and ideas are completely private. No data collection, no sharing.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon purple">⚡</div>
+                        <div class="feature-text">
+                            <h3>Lightning Fast</h3>
+                            <p>Quick capture and instant search. Find any note or idea in seconds.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon green">📚</div>
+                        <div class="feature-text">
+                            <h3>Beautifully Organized</h3>
+                            <p>Clean, intuitive interface that makes organizing your thoughts a pleasure.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="features-image">
+                    <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&h=400&fit=crop&crop=center" alt="Organized workspace">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Build Your MindVault?</h2>
+            <p class="cta-description">Start capturing your thoughts, ideas, and memories in a beautiful, organized space.</p>
+            <a href="/login/" class="btn btn-cta">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon">📚</div>
+                <span class="logo-text">MindVault</span>
+            </div>
+            <p class="footer-text">Your personal knowledge, beautifully organized.</p>
+        </div>
+    </footer>
+
+
+{% endblock %}

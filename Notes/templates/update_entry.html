@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block start %}
+
+<header class="app-header">
+    <div class="app-nav">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            <div class="logo-info">
+                <span class="logo-text">MindVault</span>
+                <span class="logo-subtitle">Your Personal Knowledge Space</span>
+                <span class="logo-subtitle">Welcome, {{user.first_name}}</span>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'logout_page' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">🚪 Logout</button>
+        </form>
+    </div>
+</header>
+
+<div class="app-container">
+    <!-- Note Form -->
+    <div class="note-panel">
+        <div class="panel-header">
+            <h2>Update Note</h2>
+            <p>Edit details</p>
+        </div>
+        <form method="POST" class="topic-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="add_note">
+
+            <div class="form-group">
+                <label for="selected_topic">Select Topic</label>
+                <select name="selected_topic" id="selected_topic" class="styled-select" >
+                    <option value="" disabled selected>If you don't see your topic Kindly add topic from home and update it</option>
+                    {% for topic in topics %}
+                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="noteTitle">Title</label>
+            <input type="text" name="title" id="noteTitle" value="{{ mindvault.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="noteDescription">Description</label>
+                <textarea name="description" id="noteDescription" rows="5" required>{{ mindvault.description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Optional Image</label>
+                <input type="file" name="image" id="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Note</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
