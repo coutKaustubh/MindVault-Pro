@@ -4,17 +4,39 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Case, When, Value, IntegerField
 def landing_page(request):
     return render(request, "index.html")
 
 
+def update_priority(request, pk, new_priority):
+    entry = get_object_or_404(Entry, pk=pk)
+    entry.priority = new_priority
+    entry.save()
+    return redirect('/MindVault/')
+    
+
+def toggle_resolved(request, pk):
+    entry = get_object_or_404(Entry, pk=pk)
+    entry.resolved = not entry.resolved
+    entry.save()
+    return redirect('/MindVault/')
 
 @login_required(login_url='/login/')
 def notes_entry(request):
-    topics = Topic.objects.filter(user=request.user) 
-    entries = Entry.objects.filter(user=request.user).order_by('-created_at')
-    
+    topics = Topic.objects.filter(user=request.user)
+
+    # Correct sorting logic
+    entries = Entry.objects.filter(user=request.user).annotate(
+        priority_order=Case(
+            When(priority_choice='high', then=Value(0)),
+            When(priority_choice='medium', then=Value(1)),
+            When(priority_choice='low', then=Value(2)),
+            default=Value(3),
+            output_field=IntegerField()
+        )
+    ).order_by('resolved', 'priority_order', '-created_at')
+
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
 
@@ -23,10 +45,9 @@ def notes_entry(request):
             topic_name = request.POST.get('topic')
             if topic_name:
                 Topic.objects.create(
-                    user = request.user,
+                    user=request.user,
                     name=topic_name,
-
-                    )
+                )
             return redirect('/MindVault/')
 
         # Handle Note creation
@@ -36,19 +57,21 @@ def notes_entry(request):
             description = request.POST.get('description')
             image = request.FILES.get('image')
             problem_type = request.POST.get('problem_type')
+            priority_choice = request.POST.get('priority_choice')
+
             if problem_type == 'other':
                 problem_type = request.POST.get('custom_problem_type')
-
 
             try:
                 topic = Topic.objects.get(id=topic_id)
                 Entry.objects.create(
-                    user = request.user,
+                    user=request.user,
                     topic=topic,
                     title=title,
                     description=description,
                     image=image,
-                    problem_type=problem_type
+                    problem_type=problem_type,
+                    priority_choice=priority_choice
                 )
             except Topic.DoesNotExist:
                 pass
@@ -136,6 +159,8 @@ def update_entry(request, id):
         description = request.POST.get('description')
         image = request.FILES.get('image')
         problem_type = request.POST.get('problem_type')
+        priority_choice = request.POST.get('priority_choice')
+
         if problem_type == 'other':
             problem_type = request.POST.get('custom_problem_type')
 
@@ -146,7 +171,7 @@ def update_entry(request, id):
         entry.title = title
         entry.description = description
         entry.problem_type = problem_type
-
+        entry.priority_choice = priority_choice
         if image:
             entry.image = image
 

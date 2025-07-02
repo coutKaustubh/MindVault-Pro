@@ -82,6 +82,15 @@
                 <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;"
                     placeholder="Enter your custom type">
             </div>
+            <div class="form-group">
+                <label for="problem_type">Priority Choice </label>
+                <select name="priority_choice" id="selected_topic" class="styled-select">
+                    <option value="" disabled selected>Choose Priority for this Problem</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="image">Optional Document</label>
@@ -108,7 +117,9 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Problem Type</th>
-                <th>Image</th>
+                <th>Priority</th>
+                <th>Document</th>
+                <th>Resolved</th>
                 <th>Date</th>
                 <th>Actions</th>
             </tr>
@@ -133,6 +144,19 @@
                         {{ entry.get_problem_type_display }}
                     </span>
                 </td>
+                <td>
+                    {% if entry.priority == 'high' %}
+                    <a href="{% url 'update_priority' entry.id 'medium' %}" class="badge bg-danger text-light"
+                        style="cursor:pointer;">High</a>
+                    {% elif entry.priority == 'medium' %}
+                    <a href="{% url 'update_priority' entry.id 'low' %}" class="badge bg-warning text-dark"
+                        style="cursor:pointer;">Medium</a>
+                    {% else %}
+                    <a href="{% url 'update_priority' entry.id 'high' %}" class="badge bg-success text-light"
+                        style="cursor:pointer;">Low</a>
+                    {% endif %}
+                </td>
+
 
                 <td>
                     {% if entry.image %}
@@ -140,6 +164,13 @@
                             File</button></a></t>
                     {% else %}
                     No Document
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entry.resolved %}
+                    <span class="badge bg-secondary">Yes</span>
+                    {% else %}
+                    <span class="badge bg-info text-dark">No</span>
                     {% endif %}
                 </td>
                 <td>{{ entry.created_at|date:"M d, Y" }}</td>

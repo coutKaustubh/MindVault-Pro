@@ -29,7 +29,21 @@ class Entry(models.Model):
         default='silly'
     )
 
+    PRIORITY_CHOICE = [
+        ('high', 'High'),
+        ('medium' ,'Medium'),
+        ('low','Low'),
+    ]
+     
+    priority_choice = models.CharField(
+        max_length=10,
+        choices=PRIORITY_CHOICE,
+        default='medium'
+    )
+    
+    resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
         return f"{self.topic.name} → {self.title}->{self.problem_type}"
+  
