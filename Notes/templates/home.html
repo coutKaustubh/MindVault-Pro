@@ -83,7 +83,7 @@
                     placeholder="Enter your custom type">
             </div>
             <div class="form-group">
-                <label for="problem_type">Priority Choice </label>
+                <label for="problem_type">Priority</label>
                 <select name="priority_choice" id="selected_topic" class="styled-select">
                     <option value="" disabled selected>Choose Priority for this Problem</option>
                     <option value="high">High</option>
@@ -145,10 +145,10 @@
                     </span>
                 </td>
                 <td>
-                    {% if entry.priority == 'high' %}
+                    {% if entry.priority_choice == 'high' %}
                     <a href="{% url 'update_priority' entry.id 'medium' %}" class="badge bg-danger text-light"
                         style="cursor:pointer;">High</a>
-                    {% elif entry.priority == 'medium' %}
+                    {% elif entry.priority_choice == 'medium' %}
                     <a href="{% url 'update_priority' entry.id 'low' %}" class="badge bg-warning text-dark"
                         style="cursor:pointer;">Medium</a>
                     {% else %}
@@ -167,12 +167,26 @@
                     {% endif %}
                 </td>
                 <td>
+                    <!-- Display Resolved Status -->
                     {% if entry.resolved %}
                     <span class="badge bg-secondary">Yes</span>
                     {% else %}
                     <span class="badge bg-info text-dark">No</span>
                     {% endif %}
+
+                    <!-- Add Toggle Button -->
+                    <form method="POST" action="{% url 'toggle_resolved' entry.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-primary mt-1">
+                            {% if entry.resolved %}
+                            Mark Unresolved
+                            {% else %}
+                            Mark Resolved
+                            {% endif %}
+                        </button>
+                    </form>
                 </td>
+
                 <td>{{ entry.created_at|date:"M d, Y" }}</td>
                 <td>
                     <div style="display: flex; flex-direction: column; gap: 8px;">

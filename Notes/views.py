@@ -9,24 +9,10 @@ def landing_page(request):
     return render(request, "index.html")
 
 
-def update_priority(request, pk, new_priority):
-    entry = get_object_or_404(Entry, pk=pk)
-    entry.priority = new_priority
-    entry.save()
-    return redirect('/MindVault/')
-    
-
-def toggle_resolved(request, pk):
-    entry = get_object_or_404(Entry, pk=pk)
-    entry.resolved = not entry.resolved
-    entry.save()
-    return redirect('/MindVault/')
 
 @login_required(login_url='/login/')
 def notes_entry(request):
     topics = Topic.objects.filter(user=request.user)
-
-    # Correct sorting logic
     entries = Entry.objects.filter(user=request.user).annotate(
         priority_order=Case(
             When(priority_choice='high', then=Value(0)),
@@ -58,7 +44,6 @@ def notes_entry(request):
             image = request.FILES.get('image')
             problem_type = request.POST.get('problem_type')
             priority_choice = request.POST.get('priority_choice')
-
             if problem_type == 'other':
                 problem_type = request.POST.get('custom_problem_type')
 
@@ -183,6 +168,19 @@ def update_entry(request, id):
         'topics': Topic.objects.filter(user=request.user)
     }
     return render(request, 'update_entry.html', context)
+
+def update_priority(request, pk, new_priority):
+    entry = get_object_or_404(Entry, pk=pk)
+    entry.priority = new_priority
+    entry.save()
+    return redirect('/MindVault/')
+    
+
+def toggle_resolved(request, pk):
+    entry = get_object_or_404(Entry, pk=pk)
+    entry.resolved = not entry.resolved
+    entry.save()
+    return redirect('/MindVault/')
 
 def logout_page(request):
     logout(request)
