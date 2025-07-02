@@ -39,7 +39,7 @@ def notes_entry(request):
             if problem_type == 'other':
                 problem_type = request.POST.get('custom_problem_type')
 
-                
+
             try:
                 topic = Topic.objects.get(id=topic_id)
                 Entry.objects.create(
@@ -135,12 +135,17 @@ def update_entry(request, id):
         title = request.POST.get('title')
         description = request.POST.get('description')
         image = request.FILES.get('image')
+        problem_type = request.POST.get('problem_type')
+        if problem_type == 'other':
+            problem_type = request.POST.get('custom_problem_type')
+
 
         if topic_id:
             entry.topic = get_object_or_404(Topic, id=topic_id)
 
         entry.title = title
         entry.description = description
+        entry.problem_type = problem_type
 
         if image:
             entry.image = image

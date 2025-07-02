@@ -31,27 +31,45 @@
 
             <div class="form-group">
                 <label for="selected_topic">Select Topic</label>
-                <select name="selected_topic" id="selected_topic" class="styled-select" >
-                    <option value="" disabled selected>If you don't see your topic Kindly add topic from home and update it</option>
+                <select name="selected_topic" id="selected_topic" class="styled-select">
+                    <option value="" disabled selected>If you don't see your topic Kindly add topic from home and update
+                        it</option>
                     {% for topic in topics %}
-                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                    <option value="{{ topic.id }}">{{ topic.name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="noteTitle">Title</label>
-            <input type="text" name="title" id="noteTitle" value="{{ mindvault.title }}" required>
+                <input type="text" name="title" id="noteTitle" value="{{ mindvault.title }}" required>
             </div>
 
             <div class="form-group">
                 <label for="noteDescription">Description</label>
-                <textarea name="description" id="noteDescription" rows="5" required>{{ mindvault.description }}</textarea>
+                <textarea name="description" id="noteDescription" rows="5"
+                    required>{{ mindvault.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="problem_type">Problem Type</label>
+                <select name="problem_type" id="selected_topic" class="styled-select" onchange="toggleCustomInput(this)"
+                    required>
+                    <option value="" disabled selected>Choose Problem Type</option>
+                    <option value="silly">Silly Mistake</option>
+                    <option value="big">Big Mistake</option>
+                    <option value="concept">Conceptual Error</option>
+                    <option value="calc">Calculation Mistake</option>
+                    <option value="skip">Skipped/Unattempted</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;"
+                    placeholder="Enter your custom type">
             </div>
 
             <div class="form-group">
-                <label for="image">Optional Image</label>
-                <input type="file" name="image" id="image" accept="image/*">
+                <label for="image">Optional Document</label>
+                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png,.pdf">
             </div>
 
             <button type="submit" class="btn btn-primary">Save Note</button>
@@ -59,5 +77,17 @@
     </div>
 </div>
 
+<script>
+    function toggleCustomInput(selectElement) {
+        const customInput = document.getElementById('custom_problem_type');
+        if (selectElement.value === 'other') {
+            customInput.style.display = 'block';
+            customInput.required = true;
+        } else {
+            customInput.style.display = 'none';
+            customInput.required = false;
+        }
+    }
+</script>
 
 {% endblock %}

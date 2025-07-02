@@ -51,7 +51,7 @@
                 <select name="selected_topic" id="selected_topic" class="styled-select" required>
                     <option value="" disabled selected>Select a topic</option>
                     {% for topic in topics %}
-                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                    <option value="{{ topic.id }}">{{ topic.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -66,9 +66,10 @@
                 <textarea name="description" id="noteDescription" rows="5" required></textarea>
             </div>
 
-             <div class="form-group">
+            <div class="form-group">
                 <label for="problem_type">Problem Type</label>
-                <select name="problem_type" id="selected_topic" class="styled-select" onchange="toggleCustomInput(this)"  required>
+                <select name="problem_type" id="selected_topic" class="styled-select" onchange="toggleCustomInput(this)"
+                    required>
                     <option value="" disabled selected>Choose Problem Type</option>
                     <option value="silly">Silly Mistake</option>
                     <option value="big">Big Mistake</option>
@@ -78,7 +79,8 @@
                     <option value="other">Other</option>
                 </select>
 
-                <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;" placeholder="Enter your custom type">
+                <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;"
+                    placeholder="Enter your custom type">
             </div>
 
             <div class="form-group">
@@ -119,7 +121,7 @@
                 <td>{{ entry.title }}</td>
                 <td>{{ entry.description }}</td>
                 <td>
-                <span class="badge 
+                    <span class="badge 
                     {% if entry.problem_type == 'silly' %}bg-warning text-dark
                     {% elif entry.problem_type == 'big' %}bg-danger
                     {% elif entry.problem_type == 'concept' %}bg-info
@@ -128,48 +130,49 @@
                     {% else %}bg-light text-dark
                     {% endif %}
                 " style="padding: 6px 10px; border-radius: 8px;">
-                    {{ entry.get_problem_type_display }}       
-                </span>
+                        {{ entry.get_problem_type_display }}
+                    </span>
                 </td>
 
                 <td>
                     {% if entry.image %}
-                <a href = "/media/{{entry.image}}" target="_blank"><button class = "btn btn-primary">View Doc File</button></a></t>
+                    <a href="/media/{{entry.image}}" target="_blank"><button class="btn btn-primary">View Doc
+                            File</button></a></t>
                     {% else %}
-                        No Document
+                    No Document
                     {% endif %}
                 </td>
                 <td>{{ entry.created_at|date:"M d, Y" }}</td>
                 <td>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <a href="/delete-entry/{{entry.id}}/" class="linkbtn">
-                <button class="btn btn-danger" style="background-color: rgb(233, 58, 58);">Delete</button>
-                </a>
-                <a href="/update-entry/{{entry.id}}/" class="linkbtn">
-                <button class="btn btn-primary">Update</button>
-                </a>
-            </div>
-            </td>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/delete-entry/{{entry.id}}/" class="linkbtn">
+                            <button class="btn btn-danger" style="background-color: rgb(233, 58, 58);">Delete</button>
+                        </a>
+                        <a href="/update-entry/{{entry.id}}/" class="linkbtn">
+                            <button class="btn btn-primary">Update</button>
+                        </a>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-        <p>No notes added yet. Create a topic and start writing!</p>
+    <p>No notes added yet. Create a topic and start writing!</p>
     {% endif %}
 </div>
 
 <script>
-function toggleCustomInput(selectElement) {
-    const customInput = document.getElementById('custom_problem_type');
-    if (selectElement.value === 'other') {
-        customInput.style.display = 'block';
-        customInput.required = true;
-    } else {
-        customInput.style.display = 'none';
-        customInput.required = false;
+    function toggleCustomInput(selectElement) {
+        const customInput = document.getElementById('custom_problem_type');
+        if (selectElement.value === 'other') {
+            customInput.style.display = 'block';
+            customInput.required = true;
+        } else {
+            customInput.style.display = 'none';
+            customInput.required = false;
+        }
     }
-}
 </script>
 
 
