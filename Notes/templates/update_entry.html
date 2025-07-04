@@ -52,9 +52,9 @@
             </div>
             <div class="form-group">
                 <label for="problem_type">Problem Type</label>
-                <select name="problem_type" id="selected_topic" class="styled-select" onchange="toggleCustomInput(this)"
-                    required>
-                    <option value="" disabled selected>Choose Problem Type</option>
+                <select name="problem_type" id="selected_topic" class="styled-select"
+                    onchange="toggleCustomInput(this)">
+                    <option value="" disabled selected>Please Choose Problem Type again</option>
                     <option value="silly">Silly Mistake</option>
                     <option value="big">Big Mistake</option>
                     <option value="concept">Conceptual Error</option>
@@ -66,7 +66,16 @@
                 <input type="text" id="custom_problem_type" name="custom_problem_type" style="display:none;"
                     placeholder="Enter your custom type">
             </div>
-
+            <div class="form-group">
+                <label for="problem_type">Priority</label>
+                <select name="priority_choice" id="selected_topic" class="styled-select">
+                    <option value="" disabled selected>Please again Choose same or other Priority for this Problem
+                    </option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="image">Optional Document</label>
                 <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png,.pdf">
