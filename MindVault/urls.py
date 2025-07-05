@@ -19,6 +19,7 @@ urlpatterns = [
     path('toggle-resolved/<int:pk>/', toggle_resolved, name='toggle_resolved'),
     path('delete-all/', delete_all, name='delete_all'),
     path('mark-notification-seen/<int:notif_id>/', mark_notification_seen, name='mark_notification_seen'),
+    path('notification/', notification_page, name='notification_page'),
 
 
 

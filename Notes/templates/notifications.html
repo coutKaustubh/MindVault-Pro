@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block start %}
+
+<header class="app-header">
+    <div class="app-nav">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            <div class="logo-info">
+                <span class="logo-text">MindVault</span>
+                <span class="logo-subtitle">Your Personal Knowledge Space</span>
+                <span class="logo-subtitle">Welcome, {{user.first_name}}</span>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'logout_page' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">🚪 Logout</button>
+            
+        
+        </form>
+    <a href="/MindVault/">
+    <button class="btn btn-outline-primary">⬅ Back to Home</button>
+</a>
+    </div>
+</header>
+
+<h1>🔔 Notifications</h1>
+
+{% if notifications %}
+    <ul style="list-style-type: none; padding: 0;">
+        {% for notif in notifications %}
+            <li style="margin-bottom: 12px; padding: 10px; background: #f3f3f3; border-radius: 6px;">
+                <strong>{{ notif.create_time|date:"M d, Y - H:i" }}</strong><br>
+                {{ notif.message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No notifications yet.</p>
+{% endif %}
+
+
+
+
+
+{% endblock %}

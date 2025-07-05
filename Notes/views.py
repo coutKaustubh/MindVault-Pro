@@ -237,6 +237,13 @@ def  mark_notification_seen(request,notif_id):
     return JsonResponse({'status': 'invalid method'}, status=405)
     
 
+
+@login_required(login_url='/login/')
+def notification_page(request):
+    notification_db = Notifications.objects.filter(user=request.user, seen=True)
+    return render(request , "notifications.html" , {
+        'notifications' : notification_db})
+
 def logout_page(request):
     logout(request)
     return redirect('/home/')
