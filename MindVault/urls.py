@@ -18,6 +18,8 @@ urlpatterns = [
     path('update-priority/<int:pk>/<str:new_priority>/', update_priority, name='update_priority'),
     path('toggle-resolved/<int:pk>/', toggle_resolved, name='toggle_resolved'),
     path('delete-all/', delete_all, name='delete_all'),
+    path('mark-notification-seen/<int:notif_id>/', mark_notification_seen, name='mark_notification_seen'),
+
 
 
 ]

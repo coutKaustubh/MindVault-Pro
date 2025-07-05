@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Case, When, Value, IntegerField ,Q
 from datetime import timedelta
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from django.utils import timezone
 
 
@@ -82,8 +84,8 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
     now = timezone.now()
 
     # 24-hour no entry reminder
-    latest_entry = Entry.objects.filter(user=request.user).order_by('-create_time').first()
-    if not latest_entry or latest_entry.create_time < (now - timedelta(hours=24)):
+    latest_entry = Entry.objects.filter(user=request.user).order_by('-created_at').first()
+    if not latest_entry or latest_entry.created_at < (now - timedelta(hours=24)):
         msg = "You haven’t logged any new problem in the last 24 hours."
         if not Notifications.objects.filter(user=request.user, message=msg, seen=False).exists():
             Notifications.objects.create(user=request.user, message=msg)
@@ -92,7 +94,7 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
     stale_entries = Entry.objects.filter(
         user=request.user,
         resolved=False,
-        create_time__lt=now - timedelta(hours=48)
+        created_at__lt=now - timedelta(hours=48)
     )
     for entry in stale_entries:
         msg = f"You haven’t resolved this issue: “{entry.title}” in 48 hours."
@@ -220,6 +222,20 @@ def toggle_resolved(request, pk):
     entry.resolved = not entry.resolved
     entry.save()
     return redirect('/MindVault/')
+
+@csrf_exempt
+@login_required(login_url='/login/')
+def  mark_notification_seen(request,notif_id):
+    if request.method == 'POST':
+        try:
+            notif = Notifications.objects.get(id=notif_id, user=request.user)
+            notif.seen = True
+            notif.save()
+            return JsonResponse({'status': 'success'})
+        except Notifications.DoesNotExist:
+            return JsonResponse({'status': 'not found'}, status=404)
+    return JsonResponse({'status': 'invalid method'}, status=405)
+    
 
 def logout_page(request):
     logout(request)

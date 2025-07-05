@@ -18,7 +18,12 @@
     </div>
 </header>
 
-
+{% for notif in notifications %}
+    <div class="notification-card" id="notif-{{ notif.id }}">
+        <p>{{ notif.message }}</p>
+      <button class="btn ok-btn" data-id="{{ notif.id }}">OK</button>
+    </div>
+{% endfor %}
 
 <div class="app-container">
     <!-- Topic Form -->
@@ -38,12 +43,6 @@
         </form>
     </div>
     
-    {% for notif in notifications %}
-    <div class="notification-card" id="notif-{{ notif.id }}">
-        <p>{{ notif.message }}</p>
-      <button class="ok-btn" data-id="{{ notif.id }}">OK</button>
-    </div>
-    {% endfor %}
     
     <!-- Note Form -->
     <div class="note-panel">
