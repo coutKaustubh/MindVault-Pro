@@ -18,6 +18,8 @@
     </div>
 </header>
 
+
+
 <div class="app-container">
     <!-- Topic Form -->
     <div class="topic-panel">
@@ -35,7 +37,14 @@
             <button type="submit" class="btn btn-primary">Create Topic</button>
         </form>
     </div>
-
+    
+    {% for notif in notifications %}
+    <div class="notification-card" id="notif-{{ notif.id }}">
+        <p>{{ notif.message }}</p>
+      <button class="ok-btn" data-id="{{ notif.id }}">OK</button>
+    </div>
+    {% endfor %}
+    
     <!-- Note Form -->
     <div class="note-panel">
         <div class="panel-header">
@@ -106,6 +115,11 @@
 <div class="notes-section">
     <div class="section-header">
         <h2>Your Notes</h2>
+        <form method="GET">
+        <input type="text" name="search-entries" value="{{ query }}" placeholder="Search..." />
+        <button type="submit" class ="btn btn-outline-primary">Search</button>
+    </form>
+
     </div>
 
     {% if entries %}
@@ -201,6 +215,7 @@
             </tr>
             {% endfor %}
         </tbody>
+        <a href = "/delete-all/"><button class = "btn btn-success">Delete all Entries</button></a>
     </table>
     {% else %}
     <p>No notes added yet. Create a topic and start writing!</p>
@@ -218,6 +233,33 @@
             customInput.required = false;
         }
     }
+    function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function markAsSeen(id) {
+    fetch(`/mark-notification-seen/${id}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Hide notification card from DOM
+            document.getElementById('notif-' + id).style.display = 'none';
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ok-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            markAsSeen(id);
+        });
+    });
+});
 </script>
 
 

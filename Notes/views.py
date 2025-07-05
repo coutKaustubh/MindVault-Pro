@@ -4,16 +4,30 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, When, Value, IntegerField ,Q
+from datetime import timedelta
+from django.utils import timezone
+
+
 def landing_page(request):
     return render(request, "index.html")
 
 
-
 @login_required(login_url='/login/')
-def notes_entry(request):
+def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-suppress, use-named-expression
     topics = Topic.objects.filter(user=request.user)
-    entries = Entry.objects.filter(user=request.user).annotate(
+    entries = Entry.objects.filter(user=request.user)
+    
+    query = request.GET.get('search-entries')
+    if query:
+        entries = entries.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)|
+            Q(problem_type__icontains=query)
+        )
+
+    
+    entries = entries.annotate(
         priority_order=Case(
             When(priority_choice='high', then=Value(0)),
             When(priority_choice='medium', then=Value(1)),
@@ -63,9 +77,35 @@ def notes_entry(request):
 
             return redirect('/MindVault/')
 
+    
+    #Reminder Logic 
+    now = timezone.now()
+
+    # 24-hour no entry reminder
+    latest_entry = Entry.objects.filter(user=request.user).order_by('-create_time').first()
+    if not latest_entry or latest_entry.create_time < (now - timedelta(hours=24)):
+        msg = "You haven’t logged any new problem in the last 24 hours."
+        if not Notifications.objects.filter(user=request.user, message=msg, seen=False).exists():
+            Notifications.objects.create(user=request.user, message=msg)
+
+    # 48-hour unresolved problem reminder
+    stale_entries = Entry.objects.filter(
+        user=request.user,
+        resolved=False,
+        create_time__lt=now - timedelta(hours=48)
+    )
+    for entry in stale_entries:
+        msg = f"You haven’t resolved this issue: “{entry.title}” in 48 hours."
+        if not Notifications.objects.filter(user=request.user, message=msg, seen=False).exists():
+            Notifications.objects.create(user=request.user, message=msg)
+
+    #  Fetch all unseen notifications
+    notifications = Notifications.objects.filter(user=request.user, seen=False)
+
     return render(request, 'home.html', {
         'topics': topics,
-        'entries': entries
+        'entries': entries,
+        'notifications': notifications,
     })
 
 def login_page(request):
@@ -175,7 +215,6 @@ def update_priority(request, pk, new_priority):
     entry.save()
     return redirect('/MindVault/')
     
-
 def toggle_resolved(request, pk):
     entry = get_object_or_404(Entry, pk=pk)
     entry.resolved = not entry.resolved
@@ -185,4 +224,10 @@ def toggle_resolved(request, pk):
 def logout_page(request):
     logout(request)
     return redirect('/home/')
+
+def delete_all(request) :
+    Entry.objects.all().delete()
+    return redirect('/MindVault/')
+
+
 

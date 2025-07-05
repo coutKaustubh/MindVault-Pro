@@ -17,6 +17,7 @@ urlpatterns = [
     path('logout/' , logout_page , name = "logout_page"),
     path('update-priority/<int:pk>/<str:new_priority>/', update_priority, name='update_priority'),
     path('toggle-resolved/<int:pk>/', toggle_resolved, name='toggle_resolved'),
+    path('delete-all/', delete_all, name='delete_all'),
 
 
 ]

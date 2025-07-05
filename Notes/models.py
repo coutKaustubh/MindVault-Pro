@@ -47,3 +47,10 @@ class Entry(models.Model):
     def __str__(self):
         return f"{self.topic.name} → {self.title}->{self.problem_type}"
   
+  
+class Notifications(models.Model):
+    user = models.ForeignKey(User,  on_delete=models.SET_NULL,null=True,blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    create_time = models.DateTimeField(auto_now_add=True)  
+    

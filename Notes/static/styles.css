@@ -854,3 +854,21 @@ body {
   color: #856404;
   border-left: 6px solid #ffc107;
 }
+.notification-card {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notification-card button {
+  background-color: #ffc107;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
