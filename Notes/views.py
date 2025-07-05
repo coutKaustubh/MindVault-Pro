@@ -83,7 +83,7 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
     #Reminder Logic 
     now = timezone.now()
 
-    # 24-hour no entry reminder
+     # 24-hour no entry reminder
     latest_entry = Entry.objects.filter(user=request.user).order_by('-created_at').first()
     if not latest_entry or latest_entry.created_at < (now - timedelta(hours=24)):
         msg = "You haven’t logged any new problem in the last 24 hours."
@@ -91,7 +91,7 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
             Notifications.objects.create(user=request.user, message=msg)
 
     # 48-hour unresolved problem reminder
-    stale_entries = Entry.objects.filter(
+    stale_entries = Entry.objects.filter(   
         user=request.user,
         resolved=False,
         created_at__lt=now - timedelta(hours=48)
@@ -243,6 +243,12 @@ def notification_page(request):
     notification_db = Notifications.objects.filter(user=request.user, seen=True)
     return render(request , "notifications.html" , {
         'notifications' : notification_db})
+    
+
+@login_required(login_url='/login/')
+def delete_notification(request):
+    Notifications.objects.all().delete()
+    return redirect('/notification/')
 
 def logout_page(request):
     logout(request)

@@ -11,14 +11,21 @@
                 <span class="logo-subtitle">Welcome, {{user.first_name}}</span>
             </div>
         </div>
+        <div class="dropdown">
+  <button class="logout-btn dropdown-toggle" type="button" id="dashboardMenu" data-bs-toggle="dropdown" aria-expanded="false">
+    Dashboard
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dashboardMenu">
+    <li><a class="dropdown-item" href="/account/">Your Account</a></li>
+    <li><a class="dropdown-item" href="/notification/">Notifications</a></li>
+    <li><a class="dropdown-item" href="/notes/">Your Notes</a></li>
+  </ul>
+</div>
         <form method="POST" action="{% url 'logout_page' %}">
             {% csrf_token %}
             <button type="submit" class="logout-btn">🚪 Logout</button>
             
         </form>
-          <a href="/notification/">
-    <button class="btn btn-outline-primary">Show all Notifications</button>
-</a>
     </div>
 </header>
 
@@ -118,9 +125,9 @@
 <div class="notes-section">
     <div class="section-header">
         <h2>Your Notes</h2>
-        <form method="GET">
-        <input type="text" name="search-entries" value="{{ query }}" placeholder="Search..." />
-        <button type="submit" class ="btn btn-outline-primary">Search</button>
+        <form method="GET" class="d-flex" role="search">
+        <input type="text" class="form-control me-2" name="search-entries" value="{{ query }}" placeholder="Search..." />
+        <button type="submit" class ="btn btn-outline-success">Search</button>
     </form>
 
     </div>
@@ -218,8 +225,8 @@
             </tr>
             {% endfor %}
         </tbody>
-        <a href = "/delete-all/"><button class = "btn btn-success">Delete all Entries</button></a>
     </table>
+    <a href = "/delete-all/"><button class = "btn btn-dark">Delete all Entries</button></a>
     {% else %}
     <p>No notes added yet. Create a topic and start writing!</p>
     {% endif %}
