@@ -53,4 +53,4 @@ class Notifications(models.Model):
     message = models.TextField()
     seen = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True)  
-    
+    notification_type = models.CharField(max_length=100, null=True, blank=True)

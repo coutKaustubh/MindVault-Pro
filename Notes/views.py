@@ -85,10 +85,20 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
 
      # 24-hour no entry reminder
     latest_entry = Entry.objects.filter(user=request.user).order_by('-created_at').first()
-    if not latest_entry or latest_entry.created_at < (now - timedelta(hours=24)):
-        msg = "You haven’t logged any new problem in the last 24 hours."
-        if not Notifications.objects.filter(user=request.user, message=msg, seen=False).exists():
-            Notifications.objects.create(user=request.user, message=msg)
+    if not Entry.objects.filter(user=request.user).exists():
+        if not Notifications.objects.filter(user=request.user, notification_type="first_entry").exists():
+            Notifications.objects.create(
+                user=request.user,
+                message="Welcome! You haven’t added your first problem yet.",
+                notification_type="first_entry"
+            )
+    elif not latest_entry or latest_entry.created_at < (now - timedelta(hours=24)):
+        if not Notifications.objects.filter(user=request.user, notification_type="no_entry_24h").exists():
+            Notifications.objects.create(
+                user=request.user,
+                message= "You haven’t logged any new problem in the last 24 hours.",
+                notification_type="no_entry_24h"
+            )
 
     # 48-hour unresolved problem reminder
     stale_entries = Entry.objects.filter(   
@@ -98,8 +108,12 @@ def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-s
     )
     for entry in stale_entries:
         msg = f"You haven’t resolved this issue: “{entry.title}” in 48 hours."
-        if not Notifications.objects.filter(user=request.user, message=msg, seen=False).exists():
-            Notifications.objects.create(user=request.user, message=msg)
+        if not Notifications.objects.filter(user=request.user, notification_type="unresolved_48h").exists():
+            Notifications.objects.create(
+                user=request.user,
+                message=msg,
+                notification_type="unresolved_48h"
+            )
 
     #  Fetch all unseen notifications
     notifications = Notifications.objects.filter(user=request.user, seen=False)

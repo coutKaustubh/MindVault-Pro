@@ -21,6 +21,7 @@ urlpatterns = [
     path('mark-notification-seen/<int:notif_id>/', mark_notification_seen, name='mark_notification_seen'),
     path('notification/', notification_page, name='notification_page'),
     path('delete_notification/', delete_notification, name='delete_notification'),
+   
 
 
 
