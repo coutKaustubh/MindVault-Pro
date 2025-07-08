@@ -15,37 +15,19 @@ from Notes.VIEWS.notifications.notification_page import notification_page
 from Notes.VIEWS.notifications.delete_notification import delete_notification
 from Notes.VIEWS.notifications.mark_notification_seen import mark_notification_seen
 
-
 landing_page
-
 notes_entry
-
 login_page
-
-
 register
-
-
 delete_entry
-    
 update_entry
-
 update_priority
-
-
 toggle_resolved
-
 mark_notification_seen
-
-
 notification_page
-
 delete_notification
-
-
-
 logout_page
-
 delete_all
 
 
+    
