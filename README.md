@@ -9,40 +9,64 @@
 
 MindVault Pro builds on MindVault and adds the following new features:
 
-- 🔔 **Notification System**
-  - Custom user notifications (`Notifications` model)
-  - Notifications are shown only once after first activity
-  - Seen/unseen filter and notification page
 
-- 📬 **Dashboard & Dropdown UI**
-  - Search bar, dropdowns, and navbar
-  - Account menu with options:
-    - Your Account
-    - Notifications
-    - Your Notes
 
-- 📅 **Smart Notification Trigger**
-  - Notification appears *only once* after user's first note is saved
-  - Avoids repeated alerts on every page load
+### ✍️ Entry Management
+- Add, edit, delete notes
+- Notes contain:
+  - `Title`
+  - `Content`
+  - `Problem Type` (e.g., silly, concept, calc, skip, other)
+  - `Priority` (high, medium, low)
+  - `Resolved Status` (resolved or unresolved)
+  - Auto `created_at` and `updated_at` timestamps
 
-- 🎨 **Enhanced UI**
-  - Color-coded badges for different note types
-  - Light-colored, professional Bootstrap UI
+### 🔔 Smart Notifications
+- Triggered only on your **first note**
+- Shows helpful messages to guide new users
+- Dismissed after one-time use (tracked per user)
+- Notification panel with **seen/unseen** toggle
 
-- 🧠 **Future-Proofed Structure**
-  - Modular `VIEWS/` folder with `auth/`, `notes/`, `notifications/` subfolders
-  - Better maintainability and scalability
+### 🧭 Dashboard Interface
+- Light Bootstrap theme
+- Navigation bar with:
+  - Home
+  - Predict Crop (if extended)
+  - Farm Management (if extended)
+  - Notes
+  - Notifications
+  - User Dropdown (Your Account, Logout)
+
+### 🎯 Problem Type Tags
+- Automatically highlighted using Bootstrap badges:
+  - `bg-warning` for silly
+  - `bg-danger` for big
+  - `bg-info` for concept
+  - `bg-primary` for calc
+  - `bg-secondary` for skip
+  - `bg-dark` for other
+
+### 📊 Priority & Resolved Status
+- Visual priority indicators (color-coded)
+- Toggle resolved/unresolved status in UI
+- Helpful for tracking what still needs attention
+
+### 🔐 Authentication
+- Django user system
+- Session-based login/logout
+- User-specific data isolation
 
 ---
 
-## ⚙️ Tech Stack
+## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS (Bootstrap), minimal JavaScript
-- **Backend**: Django (Python 3.x)
-- **Database**: MySQL
-- **Auth**: Django Sessions
-- **Notifications**: Custom model + logic
-- **Virtual Environment**: Python venv
+| Layer       | Tech                    |
+|-------------|--------------------------|
+| Frontend    | HTML, CSS (Bootstrap), Vanilla JS |
+| Backend     | Python 3.x, Django       |
+| Database    | MySQL                    |
+| Auth        | Django sessions          |
+| Hosting     | (Deploy locally or on Heroku / PythonAnywhere) |
 
 ---
 
