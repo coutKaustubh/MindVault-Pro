@@ -46,21 +46,6 @@ MindVault Pro builds on MindVault and adds the following new features:
 
 ---
 
-## 🛠️ Setup Instructions
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/MindVault-Pro.git
-cd MindVault-Pro
-
-python -m venv env
-# Linux/Mac
-source env/bin/activate
-# Windows
-env\Scripts\activate
-
-pip install -r requirements.txt
-
 ## Folder Structure
 
 MindVault-Pro/
@@ -78,3 +63,19 @@ MindVault-Pro/
 ├── requirements.txt
 ├── env/
 └── README.md
+
+
+## 🛠️ Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/MindVault-Pro.git
+cd MindVault-Pro
+
+python -m venv env
+# Linux/Mac
+source env/bin/activate
+# Windows
+env\Scripts\activate
+
+pip install -r requirements.txt
