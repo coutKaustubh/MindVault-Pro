@@ -48,21 +48,21 @@ MindVault Pro builds on MindVault and adds the following new features:
 
 ## Folder Structure
 
-MindVault-Pro/
-├── Notes/
-│   ├── VIEWS/
-│   │   ├── auth/
-│   │   ├── notifications/
-│   │   ├── notes/
-│   │   ├── __init__.py
-│   ├── templates/
-│   ├── static/
-│   ├── models.py
-│   └── urls.py
-├── manage.py
-├── requirements.txt
-├── env/
-└── README.md
+MindVault-Pro/<br>
+├── Notes/<br>
+│   ├── VIEWS/<br>
+│   │   ├── auth/<br>
+│   │   ├── notifications/<br>
+│   │   ├── notes/<br>
+│   │   ├── __init__.py<br>
+│   ├── templates/<br>
+│   ├── static/<br>
+│   ├── models.py<br>
+│   └── urls.py<br>
+├── manage.py<br>
+├── requirements.txt<br>
+├── env/<br>
+└── README.md<br>
 
 
 ## 🛠️ Setup Instructions
