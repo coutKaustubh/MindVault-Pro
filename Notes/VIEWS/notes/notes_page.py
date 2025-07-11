@@ -3,7 +3,7 @@ from ..imports import *
 @login_required
 def notes_page(request):
     entries = Entry.objects.filter(user=request.user)
-    
+
     entries = entries.annotate(
         priority_order=Case(
             When(priority_choice='high', then=Value(0)),
@@ -16,12 +16,13 @@ def notes_page(request):
 
     query = request.GET.get("search-entries", "")
     if query:
-        search_entry = Entry.objects.filter(user=request.user, title__icontains=query)
-    else:
-        search_entry = Entry.objects.filter(user=request.user)
-    
+        entries = entries.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)|
+            Q(problem_type__icontains=query)
+        )
+
     return render(request, "notes.html", {
         "entries": entries,
-        "search_entry" : search_entry,
         "query": query,
     })
