@@ -21,10 +21,8 @@ urlpatterns = [
     path('notification/', notification_page, name='notification_page'),
     path('delete_notification/', delete_notification, name='delete_notification'),
     path('delete_notification/', delete_notification, name='delete_notification'),
-   
-
-
-
+    path('notes/',notes_page, name='notes_page'),
+    
 ]
 
 if settings.DEBUG:

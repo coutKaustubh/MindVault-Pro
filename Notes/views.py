@@ -8,6 +8,7 @@ from Notes.VIEWS.notes.delete_entry import delete_entry
 from Notes.VIEWS.notes.toggle_resolved import toggle_resolved
 from Notes.VIEWS.notes.update_priority import update_priority
 from Notes.VIEWS.notes.delete_all import delete_all
+from Notes.VIEWS.notes.notes_page import notes_page
 from Notes.VIEWS.auth.login_page import login_page
 from Notes.VIEWS.auth.logout_page import logout_page
 from Notes.VIEWS.auth.register import register
@@ -28,6 +29,7 @@ notification_page
 delete_notification
 logout_page
 delete_all
+notes_page
 
 
     
