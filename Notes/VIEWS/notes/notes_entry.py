@@ -1,10 +1,9 @@
 from ..imports import *
 
 @login_required(login_url='/login/')
-def notes_entry(request):    # sourcery skip: low-code-quality, use-contextlib-suppress, use-named-expression
+def notes_entry(request):    #low-code-quality, use-contextlib-suppress, use-named-expression
     topics = Topic.objects.filter(user=request.user)
-    entries = Entry.objects.filter(user=request.user)
-
+    
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
 
